@@ -21,6 +21,9 @@ endif
 
 let g:loaded_yankring = 190
 
+" Disable YankRing tracking, to speed up vim-multiple-cursors.
+let g:yankring_record_enabled = 1
+
 " Turn on support for line continuations when creating the script
 let s:cpo_save = &cpo
 set cpo&vim
@@ -2749,6 +2752,11 @@ function! s:YRCheckClipboard()
 endfunction
 
 function! s:YRInsertLeave()
+    " If this is disabled, do not record anything.
+    if g:yankring_record_enabled == 0
+        return
+    endif
+
     " The YankRing uses omaps to execute the prescribed motion
     " and then appends to the motion a call to a YankRing
     " function to record the contents of the changed register.
